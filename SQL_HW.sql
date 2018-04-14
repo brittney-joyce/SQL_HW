@@ -200,3 +200,22 @@ ON r.inventory_id = i.inventory_id
 INNER JOIN payment p
 GROUP BY name
 LIMIT 5;
+
+-- 8a. create view of top films
+CREATE VIEW Top_Grossing_Films AS
+SELECT name, SUM(p.amount)
+FROM category c
+INNER JOIN film_category fc
+INNER JOIN inventory i
+ON i.film_id = fc.film_id
+INNER JOIN rental r
+ON r.inventory_id = i.inventory_id
+INNER JOIN payment p
+GROUP BY name
+LIMIT 5;
+
+-- 8b. display new view
+SELECT * FROM Top_Grossing_Films;
+
+-- 8c. Drop view
+DROP VIEW Top_Grossing_Films;
