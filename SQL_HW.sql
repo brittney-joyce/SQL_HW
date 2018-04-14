@@ -9,24 +9,24 @@ FROM actor
 
 -- 2a. actors named Joe
 SELECT actor_id, first_name, last_name
-FROM actor
+FROM sakila.actor
 WHERE first_name = "JOE";
 
 -- 2b. last name Gen 
 SELECT actor_id, first_name, last_name
-FROM actor
+FROM sakila.actor
 WHERE last_name LIKE '%GEN%';
 
 
 -- 2c. last name has Li, sort by last name
 SELECT actor_id, first_name, last_name
-FROM actor
+FROM sakila.actor
 WHERE last_name LIKE '%LI%'
 ORDER BY last_name;
 
 -- 2d. display countries- Afghnaistan, Bangladesh, China
 SELECT *
-FROM country 
+FROM sakila.country 
 WHERE country IN ('Afghanistan', 'Bangladesh', 'China');
 
 -- 3a. add middle name column
@@ -45,3 +45,9 @@ DROP COLUMN middle_name;
 SELECT last_name, COUNT(*) 
 FROM sakila.actor
 GROUP BY last_name;
+
+-- 4b. same last names
+SELECT last_name, COUNT(*) 
+FROM sakila.actor
+GROUP BY last_name
+HAVING COUNT(*) > 2;
