@@ -51,3 +51,31 @@ SELECT last_name, COUNT(*)
 FROM sakila.actor
 GROUP BY last_name
 HAVING COUNT(*) > 2;
+
+-- 4c. fix actors last name
+UPDATE sakila.actor
+SET first_name = 'HARPO', last_name = 'WILLIAMS'
+WHERE actor_id = 172;
+
+-- 4d. change name back 
+UNIQUEIDENTIFIER 
+
+-- 5a. locate address schema
+SHOW CREATE TABLE address
+
+-- 6a. join staff and address
+SELECT first_name, last_name, address_id
+FROM staff
+LEFT JOIN address
+	ON staff.address_id = address.address_id
+    
+SELECT 
+	s.address_id, 
+    s.first_name, 
+    s.last_name,
+    a.address_id,
+    a.address,
+FROM staff s
+RIGHT JOIN address a 
+ON c.address_id = a.address_id
+ORDER BY c.address_id;
