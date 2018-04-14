@@ -64,18 +64,13 @@ UNIQUEIDENTIFIER
 SHOW CREATE TABLE address
 
 -- 6a. join staff and address
-SELECT first_name, last_name, address_id
-FROM staff
-LEFT JOIN address
-	ON staff.address_id = address.address_id
-    
 SELECT 
 	s.address_id, 
     s.first_name, 
     s.last_name,
     a.address_id,
-    a.address,
+    a.address
 FROM staff s
-RIGHT JOIN address a 
-ON c.address_id = a.address_id
-ORDER BY c.address_id;
+LEFT JOIN address a 
+ON a.address_id = s.address_id
+ORDER BY a.address_id;
