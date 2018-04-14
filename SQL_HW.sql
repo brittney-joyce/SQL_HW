@@ -101,29 +101,20 @@ GROUP BY s.staff_id
 ORDER BY p.payment_date
 
 -- 6c. number of actors per film
-SELECT actor_id, COUNT(film_id)
-FROM film_actor a
-INNER JOIN film b
-ON a.actor_id = b.actor_id
-GROUP BY actor_id;
+SELECT title, COUNT(actor_id)
+FROM film a
+INNER JOIN film_actor b
+ON a.film_id = b.film_id
+GROUP BY title;
 
 -- 6d. hunchback impossible inventory
-SELECT COUNT(inventory_id)
-FROM sakila.inventory
-WHERE inventory_id = "hunchback impossible"
-
-"""
-SELECT 
-	f.film_id, 
-    f.title,
-    i.film_id,
-    i.inventory_id,
+SELECT title, 
+COUNT(inventory_id)
 FROM film f
-LEFT JOIN inventory i
+INNER JOIN inventory i 
 ON f.film_id = i.film_id
-WHERE f.film_id = "hunchback impossible"
+WHERE title = "Hunchback Impossible";
 
-"""
 
 -- 6e paid per customer
 SELECT 
@@ -138,3 +129,24 @@ LEFT JOIN payment p
 ON c.customer_id = p.customer_id
 GROUP BY c.customer_id
 ORDER BY last_name ASC;
+
+-- 7a. movies beging with K & Q
+SELECT title 
+FROM film f
+WHERE language_id IN 
+	(SELECT language_id 
+    FROM language
+    WHERE name = "English")
+AND (title LIKE "K%") OR (title LIKE "Q%");
+
+-- 7b. actors in Alone Trip
+SELECT first_name, last_name
+FROM actor
+WHERE actor_id IN 
+	(SELECT actor_id F
+    FROM film_actor
+    WHERE film_id IN
+		(SELECT film_id 
+        FROM film
+		WHERE title = "Alone Trip"));
+
