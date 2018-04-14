@@ -2,10 +2,12 @@
 USE sakila;
 
 SELECT first_name , last_name
-FROM actor
+FROM actor;
 
 -- 1b. single column labeled actor name
-
+SELECT CONCAT(first_name," ", last_name) 
+AS Actor_Name
+FROM actor;
 
 -- 2a. actors named Joe
 SELECT actor_id, first_name, last_name
@@ -58,7 +60,7 @@ SET first_name = 'HARPO', last_name = 'WILLIAMS'
 WHERE actor_id = 172;
 
 -- 4d. change name back 
-UNIQUEIDENTIFIER 
+
 
 -- 5a. locate address schema
 SHOW CREATE TABLE address
@@ -82,23 +84,12 @@ SELECT
     s.last_name,
     p.staff_id,
     p.payment_id,
-    p.amount
+    p.amount,
+SUM(amount)
 FROM staff s
-LEFT JOIN payment p
+INNER JOIN payment p
 ON s.staff_id = p.staff_id
 GROUP BY p.staff_id
-
-
-SELECT 	s.staff_id AS 'Customer ID', 
-		s.first_name AS 'First Name', 
-		s.last_name AS 'Last Name', 
-        p.payment_date AS 'Date'
-        SUM(amount) AS 'Total Sold'
-FROM sakila.payment p
-	INNER JOIN staff s ON
-	s.staff_id = p.staff_id
-GROUP BY s.staff_id
-ORDER BY p.payment_date
 
 -- 6c. number of actors per film
 SELECT title, COUNT(actor_id)
@@ -199,7 +190,7 @@ ON ci.country_id = coun.country_id;
 
 -- 7h. top 5 grossing movies
 SELECT name, 
-SUM(p.amount)
+SUM(amount)
 FROM category c
 INNER JOIN film_category fc
 INNER JOIN inventory i
