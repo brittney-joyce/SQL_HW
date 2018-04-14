@@ -110,4 +110,31 @@ GROUP BY actor_id;
 -- 6d. hunchback impossible inventory
 SELECT COUNT(inventory_id)
 FROM sakila.inventory
-WHERE title = "hunchback impossible"
+WHERE inventory_id = "hunchback impossible"
+
+"""
+SELECT 
+	f.film_id, 
+    f.title,
+    i.film_id,
+    i.inventory_id,
+FROM film f
+LEFT JOIN inventory i
+ON f.film_id = i.film_id
+WHERE f.film_id = "hunchback impossible"
+
+"""
+
+-- 6e paid per customer
+SELECT 
+	c.customer_id, 
+    c.first_name,
+    c.last_name,
+    p.customer_id,
+    p.payment_id,
+    p.amount
+FROM customer c
+LEFT JOIN payment p
+ON c.customer_id = p.customer_id
+GROUP BY c.customer_id
+ORDER BY last_name ASC;
