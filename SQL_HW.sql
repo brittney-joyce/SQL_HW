@@ -40,3 +40,8 @@ MODIFY middle_name BLOB ;
 -- 3c. delete middle name
 ALTER table actor
 DROP COLUMN middle_name;
+
+-- 4a. count last names
+SELECT last_name, COUNT(*) 
+FROM sakila.actor
+GROUP BY last_name;
