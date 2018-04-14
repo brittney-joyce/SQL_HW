@@ -150,3 +150,62 @@ WHERE actor_id IN
         FROM film
 		WHERE title = "Alone Trip"));
 
+-- 7c. Canadian customers
+SELECT first_name, last_name, email, country
+FROM country a
+LEFT JOIN customer b
+ON a.country_id = b.customer_id
+WHERE country = "Canada" ;
+
+-- 7d. family films
+SELECT title, category
+FROM film_list
+WHERE category = "Family";
+
+-- 7e. most frequently rented movies
+SELECT i.film_id, f.title, 
+COUNT(r.inventory_id)
+FROM inventory i
+INNER JOIN rental r
+ON i.inventory_id = r.inventory_id
+INNER JOIN film_text f
+on i.film_id = f.film_id
+GROUP BY r.inventory_id
+ORDER BY COUNT(r.inventory_id) DESC;
+
+-- 7f. amount each store made
+SELECT store.store_id, SUM(amount)
+FROM store
+INNER JOIN staff
+ON store.store_id = staff.store_id
+INNER JOIN payment 
+ON payment.staff_id = staff.staff_id
+GROUP BY store.store_id
+ORDER BY SUM(amount);
+
+-- 7g. each store's- store id, city, country
+SELECT s.store_id, city, country
+FROM store s
+INNER JOIN customer cu
+ON s.store_id = cu.store_id
+INNER JOIN staff st
+ON s.store_id = st.store_id
+INNER JOIN address a
+ON cu.address_id = a.address_id
+INNER JOIN city ci
+ON a.city_id = ci.city_id
+INNER JOIN country coun
+ON ci.country_id = coun.country_id;
+
+-- 7h. top 5 grossing movies
+SELECT name, 
+SUM(p.amount)
+FROM category c
+INNER JOIN film_category fc
+INNER JOIN inventory i
+ON i.film_id = fc.film_id
+INNER JOIN rental r
+ON r.inventory_id = i.inventory_id
+INNER JOIN payment p
+GROUP BY name
+LIMIT 5;
