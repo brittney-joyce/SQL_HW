@@ -74,3 +74,40 @@ FROM staff s
 LEFT JOIN address a 
 ON a.address_id = s.address_id
 ORDER BY a.address_id;
+
+-- 6b. join total amount sold by staff
+SELECT 
+	s.staff_id, 
+    s.first_name,
+    s.last_name,
+    p.staff_id,
+    p.payment_id,
+    p.amount
+FROM staff s
+LEFT JOIN payment p
+ON s.staff_id = p.staff_id
+GROUP BY p.staff_id
+
+
+SELECT 	s.staff_id AS 'Customer ID', 
+		s.first_name AS 'First Name', 
+		s.last_name AS 'Last Name', 
+        p.payment_date AS 'Date'
+        SUM(amount) AS 'Total Sold'
+FROM sakila.payment p
+	INNER JOIN staff s ON
+	s.staff_id = p.staff_id
+GROUP BY s.staff_id
+ORDER BY p.payment_date
+
+-- 6c. number of actors per film
+SELECT actor_id, COUNT(film_id)
+FROM film_actor a
+INNER JOIN film b
+ON a.actor_id = b.actor_id
+GROUP BY actor_id;
+
+-- 6d. hunchback impossible inventory
+SELECT COUNT(inventory_id)
+FROM sakila.inventory
+WHERE title = "hunchback impossible"
